@@ -1,25 +1,19 @@
-import { NotionRenderer } from 'react-notion-x'
-import { NotionAPI } from 'notion-client'
-import 'react-notion-x/src/styles.css'
+import { NotionAPI } from 'notion-client';
+import NotionPage from '@/components/NotionPage'; // Import the client component
 
 function formatPageId(pageId: string) {
-  return `${pageId.slice(0, 8)}-${pageId.slice(8, 12)}-${pageId.slice(12, 16)}-${pageId.slice(16, 20)}-${pageId.slice(20)}`
+  return `${pageId.slice(0, 8)}-${pageId.slice(8, 12)}-${pageId.slice(12, 16)}-${pageId.slice(16, 20)}-${pageId.slice(20)}`;
 }
 
-
 export default async function Home() {
-  // const response = await fetch('http://localhost:3000/api/notion-integration')
-  // const final_response = await response.json();
-  const notion = new NotionAPI()
-  const recordMap = await notion.getPage(formatPageId("918f52863c2043ac901e006d7c0ba0e0"))
-  console.log(recordMap)
+  // Server-side data fetching with Notion API
+  const notion = new NotionAPI();
+  const recordMap = await notion.getPage(formatPageId('918f52863c2043ac901e006d7c0ba0e0'));
 
-  return (<div>
-    {/* Rendering the Notion page content */}
-    <NotionRenderer
-      recordMap={recordMap}
-      fullPage={true}
-      darkMode={false}
-    />
-  </div>);
+  return (
+    <div>
+      {/* Pass the recordMap to the client component */}
+      <NotionPage recordMap={recordMap} />
+    </div>
+  );
 }
